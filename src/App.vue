@@ -1,28 +1,57 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-main>
+      <v-row class="pa-2">
+        <v-col cols="1">
+          <v-select solo v-model="selectionOne" :items="selectData"></v-select>
+        </v-col>
+        <v-col cols="1">
+          <v-select solo v-model="selectionTwo" :items="selectData"></v-select>
+        </v-col>
+        <v-col cols="1">
+          <v-select solo v-model="selectionThree" :items="selectData"></v-select>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+            <v-btn block @click="submitData">
+              submit
+            </v-btn>
+        </v-col>
+      </v-row>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  computed: {
+    selectedData() {
+      return this.$store.state.selectedData;
+    }
+  },
+  mounted() {
+    const data = this.selectedData ?? {};
+    if (Object.keys(data)) {
+      this.selectionOne = data.one
+      this.selectionTwo = data.two
+      this.selectionThree = data.three
+    }
+  },
+  data: () => ({
+    selectData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    selectionOne: null,
+    selectionTwo: null,
+    selectionThree: null,
+  }),
+  methods: {
+    setData() {
+      this.$store.commit("setData", ) 
+    },
+    submitData() {
+      this.$store.dispatch("submitData")
+    }
   }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
